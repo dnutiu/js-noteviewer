@@ -5,6 +5,8 @@ var model = {
 	notes: [],
 	init: function() {
 		var notes = JSON.parse(storage.getItem("notes"));
+		this.currentNote = storage.getItem("currentNote")
+
 		if (!notes) {
 			var exampleNoteTitle = "Example Note";
 			var exampleNoteText = "This is an example note, use the right controlls to EDIT or DELETE"
@@ -40,6 +42,9 @@ var controller = {
 			var $sidebarElement = document.getElementById(i);
 			$sidebarElement.addEventListener("click", function() {
 				var id = parseInt(this.id);
+				model.currentNote = id;
+				storage.setItem("currentNote", id);
+
 				view.updateDisplayNote(id);
 			});
 		}
@@ -58,8 +63,12 @@ var view = {
 		this.updateSidebarNotes(); 
 	},
 	updateDisplayNotes: function() {
-		this.$noteTitle.innerHTML = model.notes[0].title;
-		this.$noteText.innerHTML = model.notes[0].text;
+		var currentNote = model.currentNote;
+		if (currentNote) {
+			this.updateDisplayNote(currentNote);
+		} else {
+			this.updateDisplayNote(0);
+		}
 	},
 	updateDisplayNote: function(noteId) {
 		this.$noteTitle.innerHTML = model.notes[noteId].title;
