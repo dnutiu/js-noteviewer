@@ -1,0 +1,66 @@
+main {
+	section {
+		overflow-y: scroll;
+		height: 80vh;
+		border: 1px solid black;
+		background-color: #e9e9e9;
+	}
+	.editBox {
+		padding: 1.5em;
+		textarea {
+			resize: none;
+			padding: 10px;
+			width: 100%;
+			height: 25em;
+		}
+	}
+	.display {
+		.editBox {
+			display: none;
+		}
+		.display-controls {
+			position: absolute;
+			left: 25px;
+			top: 25px;
+		}
+		.controls {
+			position: absolute;
+			right: 25px;
+			top: 25px;
+		}
+
+	}
+	.editMode {
+		.editBox {
+			display: block;
+		}
+		.controls {
+			display: none;
+		}
+		article {
+			display: none;
+		}
+	}
+	.notes {
+		padding: 0;
+		ul {
+			margin: 0;
+			padding: 0;
+			list-style: none;
+			li {
+				cursor: pointer;
+				font-size: 2em;
+				&:nth-child(odd) {
+					background-color: #e3e3e3;
+				}
+				&:nth-child(even) {
+					background-color: #e9e9e9;
+				}
+				&.selected {
+					text-decoration: underline;
+					font-weight: bold;
+				}
+			}
+		}
+	}
+}
