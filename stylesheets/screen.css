@@ -8785,64 +8785,74 @@ main .editBox {
   padding: 1.5em;
 }
 /* line 10, ../sass/_custom.scss */
+main .editBox .error {
+  color: red;
+  font-weight: bold;
+}
+/* line 14, ../sass/_custom.scss */
 main .editBox textarea {
   resize: none;
+  overflow-x: scroll;
   padding: 10px;
   width: 100%;
-  height: 25em;
+  height: 20em;
 }
-/* line 18, ../sass/_custom.scss */
+/* line 23, ../sass/_custom.scss */
 main .display .editBox {
   display: none;
 }
-/* line 21, ../sass/_custom.scss */
+/* line 26, ../sass/_custom.scss */
 main .display .display-controls {
   position: absolute;
   left: 25px;
   top: 25px;
 }
-/* line 26, ../sass/_custom.scss */
+/* line 31, ../sass/_custom.scss */
 main .display .controls {
   position: absolute;
   right: 25px;
   top: 25px;
 }
-/* line 34, ../sass/_custom.scss */
+/* line 35, ../sass/_custom.scss */
+main .display .controls #close {
+  display: none;
+}
+/* line 42, ../sass/_custom.scss */
 main .editMode .editBox {
   display: block;
 }
-/* line 37, ../sass/_custom.scss */
-main .editMode .controls {
-  display: none;
+/* line 46, ../sass/_custom.scss */
+main .editMode .controls #close {
+  display: inline;
 }
-/* line 40, ../sass/_custom.scss */
+/* line 50, ../sass/_custom.scss */
 main .editMode article {
   display: none;
 }
-/* line 44, ../sass/_custom.scss */
+/* line 54, ../sass/_custom.scss */
 main .notes {
   padding: 0;
 }
-/* line 46, ../sass/_custom.scss */
+/* line 56, ../sass/_custom.scss */
 main .notes ul {
   margin: 0;
   padding: 0;
   list-style: none;
 }
-/* line 50, ../sass/_custom.scss */
+/* line 60, ../sass/_custom.scss */
 main .notes ul li {
   cursor: pointer;
   font-size: 2em;
 }
-/* line 53, ../sass/_custom.scss */
+/* line 63, ../sass/_custom.scss */
 main .notes ul li:nth-child(odd) {
   background-color: #e3e3e3;
 }
-/* line 56, ../sass/_custom.scss */
+/* line 66, ../sass/_custom.scss */
 main .notes ul li:nth-child(even) {
   background-color: #e9e9e9;
 }
-/* line 59, ../sass/_custom.scss */
+/* line 69, ../sass/_custom.scss */
 main .notes ul li.selected {
   text-decoration: underline;
   font-weight: bold;
