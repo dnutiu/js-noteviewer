@@ -7,7 +7,7 @@ var model = {
 		var notes = JSON.parse(storage.getItem("notes"));
 		this.currentNote = storage.getItem("currentNote")
 
-		if (!notes) {
+		if (!notes || notes.length == 0) {
 			var exampleNoteTitle = "Example Note";
 			var exampleNoteText = "This is an example note, use the right controlls to EDIT or DELETE"
 			+ " this note or use the left controlls to ADD anotother note"
@@ -27,10 +27,12 @@ var model = {
 	},
 	addNote: function(note) {
 		this.notes.unshift(note);
+		this.currentNote = this.notes.length - 1;
 		this.update();
 	},
 	update: function() {
-		storage.setItem("notes", JSON.stringify(model.notes))
+		storage.setItem("notes", JSON.stringify(model.notes));
+		storage.setItem("currentNote", model.currentNote);
 	}
 };
 
@@ -63,22 +65,29 @@ var controller = {
 		$add.addEventListener("click", function() {
 			if (self.editMode) {
 				self.createNote();
+				$close.click();
 			}
 			if (!self.error) {
 				view.toggleEditMode(this, "Add");
 			}
 		});
 
-		$delete.addEventListener("click", function() {
-			var notes = model.notes;
-			var index = model.currentNote;
-			
-			notes = notes.splice(index, 1);
-			
-			model.update();
+		//broken
+		$delete.addEventListener("click", function(e) {
+			e.stopImmediatePropagation();
+			console.log("B " + model.currentNote);
+
+			model.notes.splice(model.currentNote, 1);
+			model.currentNote = model.currentNote - 1 >= 0 ? 
+								((model.currentNote + 1) % model.notes.length) : null;			
+
 			view.refresh();
-			controller.bindNoteEvents();
+			controller.bindNoteEvents();			
+			model.update();
+
+			console.log("A " + model.currentNote);					
 		});
+		
 		//edit
 	},
 	bindNoteEvents: function() {
@@ -92,6 +101,8 @@ var controller = {
 
 				view.selectNote(this);
 				view.updateDisplayNote(id);
+
+				console.log(model.currentNote);
 			});
 		}
 	},
@@ -104,13 +115,14 @@ var controller = {
 		var text = document.getElementById('noteText').value;
 		var note;
 
-		if (title.length > 3) {
+		if (title.length >= 3) {
 			view.outputError("")
 			this.error = false;
 
 			note = model.createNote(title, text);
 			model.addNote(note);
 
+			//view.selectNoteByIndex(model.currentNote);
 			view.refresh();
 			controller.bindEvents();			
 		} else {
@@ -131,7 +143,6 @@ var view = {
 		this.$noteText = document.querySelector(".display article");
 		this.$sidebar = document.querySelector(".notes ul");
 		this.$display = document.getElementsByTagName("section")[0];
-
 
 		this.updateSidebarNotes(); 
 
@@ -159,6 +170,12 @@ var view = {
 		this.unselectNotes();
 		listItem.className = "selected";
 	},
+	selectNoteByIndex: function(index) {
+		//broken
+		var item = this.$noteList[index];
+		this.unselectNotes();
+		item.className = "selected";
+	},
 	outputError: function(message) {
 		var $error = document.getElementsByClassName("error")[0];
 		$error.innerHTML = message;
@@ -170,8 +187,8 @@ var view = {
 			this.updateDisplayNote(currentNote);
 			view.selectNote(this.$noteList[currentNote]);
 		} else {
-			this.updateDisplayNote(0);
-			view.selectNote(this.$noteList[0]);
+			//this.updateDisplayNote(0);
+			//view.selectNote(this.$noteList[0]);
 		}
 	},
 	toggleEditMode: function(btn, text) {
@@ -188,19 +205,23 @@ var view = {
 		}
 	},
 	updateDisplayNote: function(noteId) {
-		this.$noteTitle.innerHTML = model.notes[noteId].title;
-		this.$noteText.innerHTML = model.notes[noteId].text;
+		if (model.currentNote) {
+			this.$noteTitle.innerHTML = model.notes[noteId].title;
+			this.$noteText.innerHTML = model.notes[noteId].text;
+		}
 	},
 	updateSidebarNotes: function() {
-		this.$sidebar.innerHTML = "";
-		for(var i = 0; i < model.notes.length; i++) {
-			var listItem = document.createElement("li");
-			var title = model.notes[i].title;
+		if (model.currentNote) {
+			this.$sidebar.innerHTML = "";
+			for(var i = 0; i < model.notes.length; i++) {
+				var listItem = document.createElement("li");
+				var title = model.notes[i].title;
 
-			listItem.id = i;
-			listItem.innerHTML = title;
+				listItem.id = i;
+				listItem.innerHTML = title;
 
-			this.$sidebar.appendChild(listItem);
+				this.$sidebar.appendChild(listItem);
+			}
 		}
 	}
 };
