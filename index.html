@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="utf-8">
@@ -15,33 +15,35 @@
     		<h1>Note Viewer</h1>
     	</header>
     	<main class="container">
-    		<section class="col-md-8 display">
-    			<header class="text-center">
-    				<h2></h2>
-    				<div class="display-controls">
-    					<button id="add">Add</button>
-    				</div>
-    				<div class="controls">
-	    				<button id="edit">Edit</button> 
-	    				<!--  <button id="delete" dissabled>Delete</button> -->
-	    				<button id="close">Close</button>
-    				</div>
-    			</header>
-    			<div class="editBox">
-    				<div class="error"></div>
-    				<label for="noteTitle">Title: </label>
-    				<input id="noteTitle" type="text">
-    				<br>
-    				<label for="noteText">Text:</label>
-    				<br>
-    				<textarea id="noteText"></textarea>
-    			</div>
-    			<article></article>
-    			<footer></footer>
-    		</section>
-    		<section class="col-md-4 text-center notes">
-    			<ul></ul>
-    		</section>
+            <section class="row">
+                <section class="col-md-8 display">
+                    <header class="text-center">
+                        <h2></h2>
+                        <div class="display-controls">
+                            <button id="add">Add</button>
+                        </div>
+                        <div class="controls">
+                            <button id="edit">Edit</button>
+                            <!--  <button id="delete" dissabled>Delete</button> -->
+                            <button id="close">Close</button>
+                        </div>
+                    </header>
+                    <div class="editBox">
+                        <div class="error"></div>
+                        <label for="noteTitle">Title: </label>
+                        <input id="noteTitle" type="text">
+                        <br>
+                        <label for="noteText">Text:</label>
+                        <br>
+                        <textarea id="noteText"></textarea>
+                    </div>
+                    <article></article>
+                    <footer></footer>
+                </section>
+                <section class="col-md-4 text-center notes">
+                    <ul></ul>
+                </section>
+            </section>
     	</main>
     	<script src="javascripts/main.js"></script>
     </body>

@@ -1,3 +1,4 @@
+"use strict";
 var storage = localStorage;
 
 var model = {
@@ -5,7 +6,7 @@ var model = {
 	notes: [],
 	init: function() {
 		var notes = JSON.parse(storage.getItem("notes"));
-		this.currentNote = storage.getItem("currentNote")
+		this.currentNote = storage.getItem("currentNote");
 
 		if (!notes || notes.length == 0) {
 			var exampleNoteTitle = "Example Note";
@@ -23,7 +24,7 @@ var model = {
 		return {
 			title: title,
 			text: text
-		}
+		};
 	},
 	addNote: function(note) {
 		this.notes.unshift(note);
@@ -47,7 +48,7 @@ var controller = {
 	},
 	bindEvents: function() {
 		var $add = document.getElementById("add");
-		var $edit = document.getElementById("edit");
+		//var $edit = document.getElementById("edit");
 		var $delete = document.getElementById("delete");
 		var $close = document.getElementById("close");
 		var self = this;
