@@ -31,6 +31,10 @@ var model = {
 		this.currentNote = this.notes.length - 1;
 		this.update();
 	},
+	updateNote: function(title, text) {
+		this.notes[this.currentNote].title = title;
+		this.notes[this.currentNote].text = text;
+	},
 	update: function() {
 		storage.setItem("notes", JSON.stringify(model.notes));
 		storage.setItem("currentNote", model.currentNote);
@@ -48,8 +52,8 @@ var controller = {
 	},
 	bindEvents: function() {
 		var $add = document.getElementById("add");
-		//var $edit = document.getElementById("edit");
-		var $delete = document.getElementById("delete");
+		var $edit = document.getElementById("edit");
+		//var $delete = document.getElementById("delete");
 		var $close = document.getElementById("close");
 		var self = this;
 
@@ -58,6 +62,7 @@ var controller = {
 		$close.addEventListener("click", function() {
 			if (self.editMode) {
 				view.toggleEditMode($add, "Add");
+				$edit.innerHTML = "Edit";
 			}
 			view.refresh();
 			controller.bindNoteEvents();			
@@ -74,6 +79,7 @@ var controller = {
 		});
 
 		//broken
+		/*
 		$delete.addEventListener("click", function(e) {
 			e.stopImmediatePropagation();
 			console.log("B " + model.currentNote);
@@ -88,8 +94,18 @@ var controller = {
 
 			console.log("A " + model.currentNote);					
 		});
-		
+		*/
 		//edit
+		$edit.addEventListener("click", function() {
+			if (self.editMode) {
+				self.editNote();
+				$close.click();
+			}
+			if (!self.error) {
+				view.editNote();
+				view.toggleEditMode(this, "Edit");
+			}
+		});
 	},
 	bindNoteEvents: function() {
 		var self = this;
@@ -102,14 +118,20 @@ var controller = {
 
 				view.selectNote(this);
 				view.updateDisplayNote(id);
-
-				console.log(model.currentNote);
 			});
 		}
 	},
 	clearError: function() {
 		this.error = false;
 		view.outputError("");
+	},
+	editNote: function() {
+		var title = document.getElementById('noteTitle').value; 
+		var text = document.getElementById('noteText').value;
+		if (title.length > 1 && text.length > 1) {
+			model.updateNote(title, text);
+			model.update();
+		}	
 	},
 	createNote: function() {
 		var title = document.getElementById('noteTitle').value; 
@@ -150,6 +172,13 @@ var view = {
 		this.$noteList = this.$sidebar.getElementsByTagName("li");
 
 		this.updateDisplayNotes();
+	},
+	editNote: function() {
+		var title = model.notes[model.currentNote].title;
+		var text = model.notes[model.currentNote].text;
+
+		document.getElementById('noteTitle').value = title; 
+		document.getElementById('noteText').value = text;
 	},
 	clearInputs: function() {
 		document.getElementById('noteTitle').value = ""; 
