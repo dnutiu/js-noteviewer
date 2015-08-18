@@ -78,7 +78,7 @@ var controller = {
 			}
 		});
 
-		//broken
+		//TODO: Implement Edit
 		/*
 		$delete.addEventListener("click", function(e) {
 			e.stopImmediatePropagation();
@@ -95,7 +95,7 @@ var controller = {
 			console.log("A " + model.currentNote);					
 		});
 		*/
-		//edit
+
 		$edit.addEventListener("click", function() {
 			if (self.editMode) {
 				self.editNote();
